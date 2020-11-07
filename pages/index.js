@@ -2,7 +2,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 import {
-  Calendar,
   Divider,
   Layout,
   Typography,
@@ -12,7 +11,7 @@ import {
 } from 'antd';
 import 'antd/dist/antd.css';
 
-import NavBar from '../components/NavBar';
+import { Calendar, NavBar } from '../components';
 
 const { Header, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -53,8 +52,8 @@ export default function Home() {
         </Row>
         <Divider />
         <Row>
-          <Col xs={24} lg={{ span:8, offset: 16 }}>
-            <Calendar fullscreen={false} />
+          <Col xs={24} xl={{ span:12, offset: 12 }}>
+            <Calendar />
           </Col>
         </Row>
 

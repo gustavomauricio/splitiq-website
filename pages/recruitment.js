@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import 'antd/dist/antd.css';
 
-import NavBar from '../components/NavBar';
+import { NavBar } from '../components';
 
 const { Header, Content } = Layout;
 const { Title, Link, Paragraph } = Typography;

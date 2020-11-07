@@ -1,7 +1,7 @@
 import { Table, Layout } from 'antd';
 import 'antd/dist/antd.css';
 
-import NavBar from '../components/NavBar';
+import { NavBar } from '../components';
 import { fetchGuildRoster, fetchPlayableClasses } from '../api';
 import { guildRanksMap } from '../constants';
 
