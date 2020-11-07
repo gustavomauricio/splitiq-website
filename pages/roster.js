@@ -91,15 +91,17 @@ const Roster = ({ classes, roster }) => {
   );
 };
 
-Roster.getInitialProps = async (ctx) => {
+export const getStaticProps = async (ctx) => {
   const [roster, classes] = await Promise.all([
     fetchGuildRoster(),
     fetchPlayableClasses(),
   ]);
 
   return {
-    roster,
-    classes,
+    props: {
+      roster,
+      classes,
+    }
   }
 }
 
