@@ -4,33 +4,33 @@ import { Calendar as CalendarAntd , Badge } from 'antd';
 const Calendar = () => {
   const getListData = (value) => {
     let listData;
-    switch (value.date()) {
-      case 8:
-        listData = [
-          { type: 'warning', content: 'This is warning event.' },
-          { type: 'success', content: 'This is usual event.' },
-        ];
-        break;
-      case 10:
-        listData = [
-          { type: 'warning', content: 'This is warning event.' },
-          { type: 'success', content: 'This is usual event.' },
-          { type: 'error', content: 'This is error event.' },
-        ];
-        break;
-      case 15:
-        listData = [
-          { type: 'warning', content: 'This is warning event' },
-          { type: 'success', content: 'This is very long usual event。。....' },
-          { type: 'error', content: 'This is error event 1.' },
-          { type: 'error', content: 'This is error event 2.' },
-        ];
-        break;
-      case 24:
-        listData = [
-          { type: 'success', content: 'Shadowlands Launch!' },
-        ];
-      default:
+
+    if (value.year() === 2020) {
+      switch (value.date()) {
+        case 9:
+          if (value.month() === 11) {
+            listData = [
+              { type: 'error', content: 'Season 1 Start' },
+              { type: 'success', content: 'Castle Nathria (Normal/Heroic)' },
+            ];
+          }
+          break;
+        case 16:
+          if (value.month() === 11) {
+            listData = [
+              { type: 'success', content: 'Castle Nathria (Mythic)' },
+            ];
+          }
+          break;
+        case 24:
+          if (value.month() === 10) {
+            listData = [
+              { type: 'success', content: 'Shadowlands Launch!' },
+            ];
+          }
+          break;
+        default:
+      }
     }
 
     return listData || [];
@@ -73,7 +73,7 @@ const Calendar = () => {
         monthCellRender={monthCellRender}
         fullscreen={true}
       />
-      <style jsx>{`
+      <style jsx global>{`
         .events {
           list-style: none;
           margin: 0;

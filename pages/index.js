@@ -40,7 +40,7 @@ export default function Home() {
       </Row>
       <Divider />
       <Row>
-        <Col xs={24} xl={{ span:12, offset: 12 }}>
+        <Col xs={24}>
           <Calendar />
         </Col>
       </Row>
