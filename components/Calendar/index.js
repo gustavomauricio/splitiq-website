@@ -40,7 +40,7 @@ const Calendar = () => {
     const listData = getListData(value);
 
     return (
-      <ul className={styles.events}>
+      <ul className="events">
         {listData.map(item => (
           <li key={item.content}>
             <Badge status={item.type} text={item.content} />
@@ -59,7 +59,7 @@ const Calendar = () => {
   function monthCellRender(value) {
     const num = getMonthData(value);
     return num ? (
-      <div className={styles.notesMonth}>
+      <div className="notes-month">
         <section>{num}</section>
         <span>Backlog number</span>
       </div>
