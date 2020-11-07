@@ -1,11 +1,8 @@
-import { Table, Layout } from 'antd';
-import 'antd/dist/antd.css';
+import { Table } from 'antd';
 
 import { NavBar } from '../components';
 import { fetchGuildRoster, fetchPlayableClasses } from '../api';
 import { guildRanksMap } from '../constants';
-
-const { Header, Content, Footer } = Layout;
 
 const Roster = ({ classes, roster }) => {
   // sort by rank
@@ -80,14 +77,9 @@ const Roster = ({ classes, roster }) => {
   }
 
   return (
-    <Layout className="layout" style={{ minHeight: '100vh' }}>
-      <Header>
-        <NavBar />
-      </Header>
-      <Content style={{ padding: '30px 50px' }}>
-        {renderTable(roster)}
-      </Content>
-    </Layout>
+    <div>
+      {renderTable(roster)}
+    </div>
   );
 };
 
