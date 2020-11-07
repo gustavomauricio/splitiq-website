@@ -1,14 +1,25 @@
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import 'antd/dist/antd.css';
-import { Table, Layout } from 'antd';
+import { Table, Layout, Spin } from 'antd';
 
-import { NavBar } from '../components';
+import { NavBar, Dimmer } from '../components';
 
 const { Header, Content, Footer } = Layout;
 
 const MyApp = ({ Component, pageProps }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', () => setIsLoading(true));
+    router.events.on('routeChangeComplete', () => setIsLoading(false));
+  }, [])
+
   return (
-    <Layout className="layout" style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: '100vh' }}>
       <Head>
         <title>Split IQ</title>
         <link rel="icon" href="/favicon.ico" />
@@ -17,7 +28,14 @@ const MyApp = ({ Component, pageProps }) => {
         <NavBar />
       </Header>
       <Content style={{ padding: '30px 50px' }}>
-        <Component {...pageProps} />
+        {!isLoading
+          ? <Component {...pageProps} />
+          : (
+            <Dimmer>
+              <Spin size="large" />
+            </Dimmer>
+          )
+        }
       </Content>
       <Footer>
         Copyright © GM. All rights reserved.
