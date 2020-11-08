@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.dark.css';
 import { Table, Layout, Spin } from 'antd';
 
 import { NavBar, Dimmer } from '../components';
