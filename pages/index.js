@@ -1,43 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-
+import { parseString } from 'xml2js';
 import {
   Divider,
   Typography,
   Card,
   Col,
   Row,
+  Pagination,
 } from 'antd';
 
 import { Calendar, NavBar } from '../components';
-
+import { NEWS_PAGE_SIZE } from '../constants';
 const { Title } = Typography;
 
-export default function Home() {
+export default function Home({ news }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const newsSlice = news.slice((currentPage - 1) * NEWS_PAGE_SIZE, currentPage * NEWS_PAGE_SIZE);
+
   return (
     <React.Fragment>
       <Title level={2}>
-        Welcome to Split IQ
+        News
       </Title>
 
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={8}>
-          <Card className="h-100" title="Card Random Title" bordered={false} hoverable>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec volutpat augue semper mollis ornare. Quisque bibendum est purus, non blandit felis laoreet eu. Proin rutrum magna rutrum, aliquet velit nec, laoreet nunc. Fusce efficitur lorem eget diam finibus rhoncus. Cras pellentesque quis lacus lobortis dapibus. Nunc elementum elementum turpis, ac malesuada elit semper eu. Donec sed auctor orci, id placerat leo. Integer tortor quam, cursus nec enim suscipit, consectetur molestie risus. Pellentesque sit amet ante nulla.
-          </Card>
-        </Col>
-        <Col xs={24} lg={8}>
-          <Card className="h-100" title="Card Random Title 2" bordered={false} hoverable>
-            Donec tempor nec velit nec efficitur. Maecenas odio nulla, egestas in dignissim non, aliquet eget arcu. Cras consequat nec risus a rhoncus. Aliquam porta libero eu magna tempor dignissim. Morbi ac sem nec velit dictum accumsan. Etiam sagittis quam tempor sollicitudin dapibus. Cras non ornare sapien, sed congue lacus. Donec non fermentum justo. Nunc velit augue, eleifend ac lectus in, faucibus bibendum lorem. Curabitur in placerat ligula. Sed eu efficitur est. Praesent eu condimentum risus. Etiam id efficitur dolor.
-          </Card>
-        </Col>
-        <Col xs={24} lg={8}>
-          <Card className="h-100" title="Not so random title" bordered={false} hoverable>
-            We are recruiting! Check <Link href="/recruitment">this</Link> section for more info.
-          </Card>
-        </Col>
+      <Row gutter={[24, 24]}>
+        {newsSlice.map(elem => (
+          <Col xs={24} lg={8} key={elem.pubDate}>
+            <Card
+              className="h-100"
+              title={elem.title}
+              bordered={false}
+              hoverable
+              cover={<img alt="example" style={{ maxHeight: '160px' }} src={elem['media:content']['$'].url} />}
+            >
+              <div dangerouslySetInnerHTML={{ __html: elem.description }} />
+            </Card>
+          </Col>
+        ))}
       </Row>
+      <Pagination
+        defaultCurrent={1}
+        defaultPageSize={NEWS_PAGE_SIZE}
+        total={news.length}
+        onChange={(page) => setCurrentPage(page)}
+      />
       <Divider />
       <Row>
         <Col xs={24}>
@@ -65,4 +73,27 @@ export default function Home() {
       `}</style>
     </React.Fragment>
   )
+}
+
+export const getStaticProps = async (ctx) => {
+  const res = await fetch('https://www.wowhead.com/news/rss/all');
+  const text = await res.text();
+
+  let items = [];
+  const options = {
+    trim: true,
+    explicitArray: false,
+  }
+
+  parseString(text, options, (err, result) => {
+    if (!err) {
+      items = result.rss.channel.item;
+    }
+  });
+
+  return {
+    props: {
+      news: items,
+    }
+  }
 }
