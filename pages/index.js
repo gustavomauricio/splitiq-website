@@ -33,7 +33,13 @@ export default function Home({ news }) {
               title={elem.title}
               bordered={false}
               hoverable
-              cover={<img alt="example" style={{ maxHeight: '160px' }} src={elem['media:content']['$'].url} />}
+              cover={
+                <img
+                  alt="placeholder"
+                  style={{ height: '120px', objectFit: 'cover' }}
+                  src={elem['media:content']['$'].url}
+                />
+              }
             >
               <div dangerouslySetInnerHTML={{ __html: elem.description }} />
             </Card>
